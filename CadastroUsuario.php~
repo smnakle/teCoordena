@@ -35,7 +35,7 @@
 		}
 		else 
 		{
-			$insere = "INSERT INTO usuario (username, password, nome, sexo, papel) VALUES ('$username','$password','$nome','$sexo','$papel')";
+			$insere = "INSERT INTO users (username, password, nome, sexo, papel) VALUES ('$username','$password','$nome','$sexo','$papel')";
 		
 			// Executa consulta
 			$result = mysql_query($insere, $link);
