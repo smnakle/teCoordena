@@ -1,0 +1,235 @@
+@font-face {
+  font-family: "gandhi sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/gandhi-sans.ttf), url(../fonts/gandhi-serif.eot);
+}
+@font-face {
+  font-family: "gandhi sans";
+  font-style: normal;
+  font-weight: 700;
+  src: url(../fonts/gandhi-bold-sans.ttf), url(../fonts/gandhi-bold-sans.eot);
+}
+@font-face {
+  font-family: "gandhi serif";
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/gandhi-serif.ttf), url(../fonts/gandhi-serif.eot);
+}
+@font-face {
+  font-family: "gandhi serif";
+  font-style: normal;
+  font-weight: 700;
+  src: url(../fonts/gandhi-bold-serif.ttf), url(../fonts/gandhi-bold-serif.eot);
+}
+body {
+  background-color: #fff;
+  font-size: 14px;
+}
+body, h1, h2, h3, h4, h5, h6 {
+  font-family: "gandhi sans", helvetica, sans-serif;
+}
+.btn {
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
+}
+.container {
+  max-width: 920px;
+}
+.alternate-container {
+  background: #efefef;
+}
+.navbar {
+  background: #111;
+  border-radius: 0;
+  padding: 0.3em 0;
+  margin-bottom: 0;
+}
+.navbar .navbar-brand {
+  color: #fff;
+  font-family: "gandhi serif", georgia, serif;
+  font-weight: bold;
+}
+.navbar ul.nav li a {
+  color: #fff;
+  padding-left: 0;
+  padding-right: 0;
+  margin: 0 1.5em;
+}
+.navbar ul.nav li button {
+  margin: 0.7em 0 0 1em;
+}
+#macbook {
+  background: url(../img/macbook.png);
+  width: 1000px;
+  height: 526px;
+  margin-bottom: -28px;
+  margin-left: -50px;
+}
+.jumbotron {
+  background: url(../img/wild_oliva.png);
+  color: #fff;
+  padding: 0;
+  margin-bottom: 1.5em;
+  text-align: center;
+}
+.jumbotron h1 {
+  font-family: "gandhi serif", georgia, serif;
+  font-size: 2.4em;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px #000;
+  margin: 0.7em 0;
+}
+.jumbotron h2 {
+  font-size: 1.2em;
+  font-style: italic;
+  font-weight: normal;
+  line-height: 1.4em;
+  margin-bottom: 1.4em;
+}
+.jumbotron .btn {
+  box-shadow: 1px 1px 3px #000;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 0.3em 2.5em 0.5em;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+.jumbotron .btn .glyphicon {
+  margin-left: 0.2em;
+  position: relative;
+  top: 3px;
+}
+#tour {
+  margin: 0 auto;
+  width: 688px;
+  height: 435px;
+  position: relative;
+  top: 24px;
+  left: 2px;
+}
+#tour .carousel-inner img {
+  background: #111;
+  height: 435px;
+  width: 688px;
+}
+.feature-photo {
+  width: 90%;
+  margin: 3em 5%;
+}
+.feature-text h3 {
+  color: #000;
+  font-family: "gandhi serif", georgia, serif;
+  font-size: 3em;
+  font-weight: bold;
+  text-align: left;
+  margin: 1.5em 0 0.3em;
+}
+.feature-text p {
+  font-size: 1.1em;
+  margin-bottom: 2em;
+}
+footer {
+  background: #111;
+  color: #fff;
+  margin: 1em 0 0;
+  padding: 1.5em 0 0.8em;
+}
+@media screen and (max-width: 1024px) {
+  #macbook {
+    width: 750px;
+    height: 395px;
+    background-size: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: -20px;
+    position: static;
+  }
+  #tour {
+    width: 518px;
+    height: 330px;
+    top: 18px;
+  }
+  #tour .carousel-inner img {
+    width: 518px;
+    height: 330px;
+  }
+  .jumbotron {
+    margin-bottom: 1em;
+  }
+}
+@media screen and (max-width: 768px) {
+  .feature-photo {
+    margin-top: 3em;
+    margin-bottom: 1.5em;
+  }
+  .feature-text h3 {
+    margin-top: 0em;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+  }
+  .feature-text p {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  #macbook {
+    width: 500px;
+    height: 265px;
+    background-size: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: -56px;
+    position: static;
+  }
+  #tour {
+    width: 344px;
+    height: 217px;
+    top: 12px;
+    left: 1px;
+  }
+  #tour .carousel-inner img {
+    width: 344px;
+    height: 217px;
+  }
+  .navbar ul.nav li {
+    text-align: center;
+  }
+  .navbar ul.nav li button {
+    margin: 1em 0;
+  }
+  .jumbotron {
+    font-size: 14px;
+    padding: 1em 0 4em;
+  }
+}
+@media screen and (max-width: 480px) {
+  #macbook {
+    background-image: none;
+    text-align: center;
+    width: 100%;
+  }
+  #tour {
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 300px;
+    height: 189px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #tour .carousel-inner img {
+    max-width: 300px;
+    height: 189px;
+    overflow: hidden;
+  }
+  body {
+    font-size: 12px;
+  }
+  .jumbotron {
+    font-size: 12px;
+    padding-bottom: 1em;
+  }
+  footer .pull-right {
+    display: none;
+  }
+}
