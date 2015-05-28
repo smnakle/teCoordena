@@ -61,7 +61,9 @@ if($numlinha > 0)
                  </label>
               </div><!-- dadosFaseForm -->';
       echo '</form>';
-            modalEditarFase($idFase);
+           // modalEditarFase($idFase);
+           ///////////////////// modal editar fase //////////////////////////////////////
+      
           echo '  
         </div><!-- row -->';
    }
@@ -118,7 +120,7 @@ function modalEditarFase($idFase){
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Editar Fase</h4> <?php echo $idFase; ?>
+                            <h4 class="modal-title" id="myModalLabel">Editar Fase</h4> <?php echo $idFaseA; ?>
                         </div>
                         <div class="modal-body">
                             <div class="row">
