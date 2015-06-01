@@ -55,22 +55,23 @@ if($numlinha > 0)
      echo ' <form id="formListaFase" class="form-horizontal" role="form" action="kanban.php" method="post">';
       echo '<div id="dadosFaseForm" class="col-md-12 control-label" >';
       echo '    <label for="Nome" class="col-md-5 control-label  pull-left">'. $nome.'</label>';
-      echo '    <label for="idFase" class="col-md-1 control-label  pull-left">'. $row['id_fase'].'</label>';
+      echo '    <label for="idFase" class="col-md-1 control-label  pull-left">'. $idFase . '</label>';
       echo '        <input type="hidden" id="idFase" name="idFase" value="' .$idFase.' />';
       echo '          <label class="col-md-3 control-label ">
                         <button type="submit" class="btn btn-info pull-left" >Detalhes</button>
                         </label>';
        echo '          <label class="col-md-3 control-label ">
-                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalEditarFase">
+                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalEditarFase'. $idFase. '">
                             Modificar
                         </button>                    
                       </label>';
                     
        echo '       </div><!-- dadosFaseForm -->';
-     // echo '</form>';
-//            modalEditarFase($idFase);
+    // echo '</form>';
+           // modalEditarFase($idFase);
             
            //$queryA = "SELECT id_fase, nome, descricao , DATE_FORMAT(inicio,'%d/%m/%Y') AS inicio, DATE_FORMAT(fim,'%d/%m/%Y') AS fim, id_projeto FROM fases WHERE id_fase = '$idFase'";
+
            $queryA = "SELECT * FROM fases WHERE id_fase = '$idFase'";
             //Executa consulta
             $resultado = mysql_query($queryA, $link);
@@ -86,7 +87,7 @@ if($numlinha > 0)
                     $idProjetoA = $rowa['id_projeto'];
         
            ///////////////////// modal editar fase ////////////////////////////////////// 
-  echo '    <div class="modal fade" id="myModalEditarFase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  echo '    <div class="modal fade" id="myModalEditarFase'. $idFase. '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -186,7 +187,7 @@ function modalEditarFase($idFase){
             
           ?>  
             <!-- Modal editar dados fase -->
-            <div class="modal fade" id="myModalEditarFase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal fade" id="myModalEditarFase'<?php $idFase?> '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
