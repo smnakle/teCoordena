@@ -13,7 +13,7 @@ if (!(empty($username) OR empty($password))) {
 
     $idFase = $_REQUEST['idFase'];
     $_SESSION['idFase'] = $idFase;
-    echo 'id fase = ' . $idFase;
+    //echo 'id fase = '. $idFase;
     ?> 
     <script>
         $(function() {

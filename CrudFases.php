@@ -67,7 +67,7 @@ if($numlinha > 0)
                       </label>';
                     
        echo '       </div><!-- dadosFaseForm -->';
-      echo '</form>';
+     // echo '</form>';
 //            modalEditarFase($idFase);
             
            //$queryA = "SELECT id_fase, nome, descricao , DATE_FORMAT(inicio,'%d/%m/%Y') AS inicio, DATE_FORMAT(fim,'%d/%m/%Y') AS fim, id_projeto FROM fases WHERE id_fase = '$idFase'";
@@ -77,7 +77,7 @@ if($numlinha > 0)
             $numlinhaA = mysql_num_rows($resultado);
 
             if ($numlinhaA > 0) {
-                $rowa = mysql_fetch_array($resultado);  
+                $rowa = mysql_fetch_assoc($resultado);  
                     $idFaseA = $rowa['id_fase'];
                     $nomeA = $rowa['nome'];
                     $descricao =  $rowa['descricao'];
@@ -91,7 +91,7 @@ if($numlinha > 0)
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Editar Fase</h4> '.$rowa['id_fase'].'
+                            <h4 class="modal-title" id="myModalLabel">Editar Fase</h4> '; echo $idFaseA; echo'
                         </div>
                         <div class="modal-body">
                             <div class="row">
@@ -115,7 +115,7 @@ if($numlinha > 0)
                                         </div>
                                         <label for="inputFim" class="col-sm-1 control-label">Fim</label>
                                         <div class="col-sm-4">
-                                            <input type="date" class="form-control" name="fim" value="'.$fim.' id="dfimFase" >
+                                            <input type="date" class="form-control" name="fim" value="'.$fim.'" id="dfimFase" >
                                         </div>
                                     </div>
                                     <input type="hidden" id="idFase" name="idFase" value="'.$idFaseA.'" />   
@@ -133,7 +133,7 @@ if($numlinha > 0)
                     </div><!-- modal content -->
                 </div><!-- modal dialog -->
             </div><!-- fade --> ';
-     
+       echo '</form>';
     }
       /////////////////////////////////////////////////////////////////////////////////////////////////
       echo '</div><!-- row -->';
@@ -211,7 +211,7 @@ function modalEditarFase($idFase){
                                     <div class="form-group">
                                         <label for="inputInicio3" class="col-sm-2 control-label">Início</label>
                                         <div class="col-sm-4">
-                                            <input type="date" class="form-control" name="inicio" placeholder="" id="diniFase" value="<?php// echo $inicio; ?>">
+                                            <input type="date" class="form-control" name="inicio" placeholder="" id="diniFase" value="<?php echo $inicio; ?>">
                                         </div>
                                         <label for="inputFim" class="col-sm-1 control-label">Fim</label>
                                         <div class="col-sm-4">
@@ -249,14 +249,16 @@ function modalEditarFase($idFase){
 function apagarFase($idFase, $idProjeto){
     include 'config.php';
     
-    $query = "DELETE FROM 'fases' WHERE id_fase= '.$idFase.'";
+    $query = "DELETE FROM fases WHERE id_fase= '$idFase'";
     // Executa consulta
     $result = mysql_query($query, $link);
     if ($result === false) {
         echo "Não foi possível apagar os dados" . mysql_error() . "<br />";
+        
     } else {
-        echo "dados apagados com sucesso!";
+        //echo "dados apagados com sucesso!";
+        //printf("Registros Excluídos: %d\n", mysql_affected_rows());
         header("Location: Projeto.php?idProjeto=$idProjeto");
     }
-    $libera = mysql_free_result($result);
+
 }

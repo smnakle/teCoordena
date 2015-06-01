@@ -103,15 +103,23 @@ function criarProjeto($nome, $descricao, $inicio, $fim, $idCriador) {
 
 function listaDetalheProjeto($idProjeto) {
     include "config.php";
-
-    $query = "SELECT id_projeto, nome, descricao , DATE_FORMAT(inicio,'%d/%m/%Y') AS inicio, DATE_FORMAT(fim,'%d/%m/%Y') AS fim FROM projetos WHERE id_projeto = '$idProjeto'";
+    //echo $idProjeto;
+    $query = "SELECT p.id_projeto, p.nome, p.descricao , p.id_criador, u.username FROM projetos As p 
+            INNER JOIN usuario as u  WHERE id_projeto = '$idProjeto' AND u.id_usuario = p.id_criador";
+            //ON u.id_usuario = p.id_criador."";
+    $busca = "SELECT DATE_FORMAT(inicio,'%d/%m/%Y') AS inicio, DATE_FORMAT(fim,'%d/%m/%Y') AS fim "
+            . "FROM projetos WHERE id_projeto = '$idProjeto'";
     
    // Executa consulta
+    $resultData = mysql_query($busca, $link);
     $result = mysql_query($query, $link);
-    $numlinha = mysql_num_rows($result);
     
-    if ($numlinha >= 1) {
+    $numlinha = mysql_num_rows($result);
+    $numlinhaData = mysql_num_rows($resultData);
+    
+    if ($numlinha >= 1 && $numlinhaData >0) {
         while ($row = mysql_fetch_assoc($result)) {  
+            $row2 = mysql_fetch_assoc($resultData);
             echo '<div class="row">
                     <div class="col-md-12">
                     <h4>';
@@ -119,15 +127,16 @@ function listaDetalheProjeto($idProjeto) {
             echo '<!--<a class="btn btn-primary pull-right" href="#" role="button">Editar</a>-->
                     </div><!--/.col-md-12--></div><!--/row--><div class="row">
                     <div class="col-md-12">';
+            echo 'Criador: '.$row['username'].'<br />';
             echo 'Descrição: ' . $row['descricao'];
             echo '</div><!--/.col-md-12--></div><!--/row--><div class="row">
                   <div class="col-md-12">';
            
-            echo 'Inicio: ' . $row['inicio'];
+            echo 'Inicio: '.$row2['inicio']; //date('d/m/Y', $row['inicio']); // ;
             echo '</div><!--/.col-md-12--></div><!--/row--><div class="row">
 		  <div class="col-md-12"> ';
             
-            echo 'Fim: ' . $row['fim'];
+            echo 'Fim: ' .$row2['fim']; //date('d/m/Y', $row['fim']);//$fim;
             echo '</div><!--/.col-md-12-->
 		 </div><!--/row-->';
         }
@@ -143,52 +152,6 @@ function listaDetalheProjeto($idProjeto) {
     //}
     $libera = mysql_free_result($result);
 }
-
-/*function editarProjeto($idProjeto) {
-    include "config.php";
-    //listaDetalheProjeto($idProjeto);include "config.php";
-
-    $query = "SELECT * FROM projetos WHERE id_projeto = '$idProjeto'";
-
-    // Executa consulta
-    $result = mysql_query($query, $link);
-
-    $numlinha = mysql_num_rows($result);
-
-    if ($numlinha > 0) {
-        while ($row = mysql_fetch_assoc($result)) {
-            echo '
-                <div class="row">
-                <form class="form-horizontal" role="form" action="controller/RecebeDadosProjeto.php" method="post">
-                <div class="form-group">
-                        <label for="inputEmail3" class="col-md-2 control-label">Nome</label>
-                        <div class="col-md-8">
-                                <input type="text" class="form-control" name="nome" id="nome" required="required">
-                                ' . $row['nome'] . '
-                        </div>
-                </div>';
-            echo '<!--<a class="btn btn-primary pull-right" href="#" role="button">Editar</a>-->
-                    </div><!--/.col-md-12--></div><!--/row--><div class="row">
-                    <div class="col-md-12">';
-            echo 'Descrição: ' . $row['descricao'];
-            echo '
-                </div><!--/.col-md-12--></div><!--/row--><div class="row">
-                <div class="col-md-12">
-                        ';
-            $date = new DateTime($row['inicio']);
-            echo 'Inicio: ' . $date->format('d/m/Y');
-            echo '
-                </div><!--/.col-md-12--></div><!--/row--><div class="row">
-                <div class="col-md-12">
-                        ';
-            $date = new DateTime($row['fim']);
-            echo 'Fim: ' . $date->format('d/m/Y');
-            echo '
-                </div><!--/.col-md-12-->
-                </div><!--/row-->';
-        }
-    }
-}*/
 
 function updateProjeto($idProjeto, $nome, $descricao, $inicio, $fim) {
     include "config.php";
