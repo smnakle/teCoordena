@@ -20,5 +20,3 @@ include "CrudMissoes.php";
 	echo "usuario não cadastrado, faça seu cadastro";
 	echo "<a href= '../index.html'> Voltar </a>";
 	}
-?>
-
