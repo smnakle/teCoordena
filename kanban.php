@@ -77,38 +77,37 @@ if (!(empty($username) OR empty($password))) {
             </tr>
             </thead>
             <tbody>
-                <?php //listaMissoes($idFase); ?>
-            <!--</tbody>-->
-                <?php
-                $query = "SELECT id_missao, nome FROM missoes WHERE id_fase = '$idFase'";
+            <?php //listaMissoes($idFase); ?>
+        <!--</tbody>-->
+            <?php
+            $query = "SELECT id_missao, nome FROM missoes WHERE id_fase = '$idFase'";
+            // Executa consulta
+            $result = mysql_query($query, $link);
 
-                // Executa consulta
-                $result = mysql_query($query, $link);
+            $numlinha = mysql_num_rows($result);
 
-                $numlinha = mysql_num_rows($result);
+            if ($numlinha > 0) {
+                while ($row = mysql_fetch_assoc($result)) {
+                    $nome = $row['nome'];
+                    $idMissao = $row['id_missao'];
+                    ?>
+                    <tr>
+                        <th scope="row" aling="left">
 
-                if ($numlinha > 0) {
-                    while ($row = mysql_fetch_assoc($result)) {
-                        $nome = $row['nome'];
-                        $idMissao = $row['id_missao'];
-                        ?>
-                        <tr>
-                            <th scope="row" aling="left">
-
-                    <div class="row">
-          <div id="divMissao" class="col-md-9" >
+                <div class="row">
+                <div id="divMissao" class="col-md-9" >
                     <?php echo $nome; ?>
-                        <?php $idMissao; ?>
-          </div><!--divMissao -->
+                    <?php $idMissao; ?>
+                </div><!--divMissao -->
                     <div id="divIconesMissao" class="col-md-1 control-label"> 
     <!--//////////////////// modal criar tarefa /////////////////////////////-->
                        <span title="Criar tarefa" data-toggle="tooltip" data-placement="right"> 
-                           <a href="#" data-toggle="modal" data-target="#myModalTarefa" id="m2"> 
+                           <a href="#" data-toggle="modal" data-target="#myModalCriarTarefa" id="m2"> 
                                 <span class="glyphicon glyphicon-list-alt" aria-hidden="true" aria-label="Right Align"></span>                        
                            </a>                  
                        </span>
                         <!-- Modal -->
-            <div class="modal fade" id="myModalTarefa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal fade" id="myModalCriarTarefa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -154,21 +153,18 @@ if (!(empty($username) OR empty($password))) {
                         </form>
                     </div><!-- modal content -->
                 </div><!-- modal dialog -->
-            </div><!-- fade -->    
-            <!--//////////////////// fim modal criar tarefa /////////////////////////////-->  
-                            
-                            
-                        </form>
-                        <form id="formEditarMissao" class="form-horizontal" role="form" action="editarMissao.php" method="post"> 
-                            <a href="#" onclick="" id="m2" data-toggle="tooltip" data-placement="right" title="Editar missão">
-                                <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="Right Align"></span>
-                            </a>
-                        </form>
-                        <form id="formDeletarMissao" class="form-horizontal" role="form" action="excluirMissao.php" method="post"> 
-                            <a href="#" onclick="" id="m3" data-toggle="tooltip" data-placement="right" title="Excluir missão">
-                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" aria-label="Right Align"></span>
-                            </a>
-                        </form>
+            </div><!-- fade -->   
+        </form>
+            <!--////////////////////////// fim modal criar tarefa /////////////////////////////-->   
+             <!--///////////////////////// modal editar missao /////////////////////////////-->
+                 <span title="Editar missão" data-toggle="tooltip" data-placement="right"> 
+                    <a href="#" data-toggle="modal" data-target="#myModalEditarMissao<?php echo $idMissao; ?>" id="m2"> 
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="Right Align"></span>
+                    </a>
+                 </span>
+                 <?php modalEditarMissao($idMissao);?>
+              <!--- ////////////////////////    Fim modal editar missao  /////////////////////        -->
+
                     </div><!-- divIconesMissao -->
                     </div><!-- row -->
                     </th>
@@ -181,8 +177,8 @@ if (!(empty($username) OR empty($password))) {
         }
     } else {
         echo '<script>
-                            window.alert("Voce não tem nenhuma missão cadastrada. " );
-                         </script>';
+                window.alert("Voce não tem nenhuma missão cadastrada. " );
+             </script>';
     }
     //}
     $libera = mysql_free_result($result);

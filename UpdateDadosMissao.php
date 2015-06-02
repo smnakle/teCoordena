@@ -10,11 +10,12 @@ if(!(empty($username) OR empty($password)))
 include "CrudMissoes.php";
 
 	$idMissao = $_REQUEST['idMissao'];
-	$idProjeto = $_REQUEST['idFase'];
-	$nome = $_POST["nome"];
-	$descricao = $_POST["descricao"];
-
-	updateMissao($idFase, $nome, $descricao, $idProjeto);
+	$idFase = $_REQUEST['idFase'];
+	$nome = $_POST['nome'];
+	$descricao = $_POST['descricao'];
+      
+       // echo $idFase;
+	updateMissao($idMissao, $nome, $descricao, $idFase);
 
 }else{
 	echo "usuario não cadastrado, faça seu cadastro";
