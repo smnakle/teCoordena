@@ -80,7 +80,7 @@ if (!(empty($username) OR empty($password))) {
                 <?php //listaMissoes($idFase); ?>
             <!--</tbody>-->
                 <?php
-                $query = "SELECT id_missao, nome FROM missoes WHERE fk_id_fase = '$idFase'";
+                $query = "SELECT id_missao, nome FROM missoes WHERE id_fase = '$idFase'";
 
                 // Executa consulta
                 $result = mysql_query($query, $link);

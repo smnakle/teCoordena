@@ -10,8 +10,7 @@ function test_input($data) {
 function criarMissao($nome, $descricao, $idFase){
 include 'config.php';
 
-$insere = "INSERT INTO missoes (nome, descricao, fk_id_fase) VALUES ('$nome','$descricao','$idFase')";
-       
+$insere = "INSERT INTO missoes (nome, descricao, id_fase) VALUES ('$nome','$descricao','$idFase')";      
 $result = mysql_query($insere, $link);
        
 if ($result === false)
@@ -110,11 +109,14 @@ if($numlinha > 0)
             </div><!-- fade -->    
             <!--//////////////////// fim modal criar tarefa /////////////////////////////-->  
                <!--</form>-->
-               <form id="formEditarMissao" class="form-horizontal" role="form" action="editarMissao.php" method="post"> 
-                    <a href="#"  id="m2" data-toggle="tooltip" data-placement="right" title="Editar missão">
+                <!--//////////////////// modal editar missao /////////////////////////////-->
+                 <span title="Editar missão" data-toggle="tooltip" data-placement="right"> 
+                    <a href="#" data-toggle="modal" data-target="#myModalEditarMissao'<?php $idMissao; ?>' " id="m2"> 
+                    <!--<a href="#"  id="m2" data-toggle="tooltip" data-placement="right" title="Editar missão">-->
                         <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="Right Align"></span>
                     </a>
-                <!--</form>-->
+                 </span>
+                <!---     Fim modal editar missao          -->
                 <form id="formDeletarMissao" class="form-horizontal" role="form" action="excluirMissao.php" method="post"> 
                     <a href="#" id="m3" data-toggle="tooltip" data-placement="right" title="Excluir missão">
                         <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" aria-label="Right Align"></span>
@@ -140,11 +142,11 @@ else{
 $libera = mysql_free_result($result);
 }
 
-function updateFase($idFase, $nome, $descricao, $inicio, $fim, $idProjeto){
+function updateMissao($idMissao, $nome, $descricao, $idFase){
     include "config.php";
     $altera ="UPDATE fases
-              SET nome='$nome', descricao='$descricao', inicio='$inicio', fim='$fim', fk_id_projeto ='$idProjeto'
-              WHERE id_fase='$idFase'";
+              SET nome='$nome', descricao='$descricao', id_fase ='$idFase'
+              WHERE id_missao='$idMissao'";
     // Executa consulta
     $result = mysql_query($altera, $link);
     // Mensagem caso a consulta falhe.
@@ -155,7 +157,7 @@ function updateFase($idFase, $nome, $descricao, $inicio, $fim, $idProjeto){
     else
     {
             echo "dados alterados com sucesso!";
-            header("Location: Projeto.php");
+            header("Location: kanban.php?idFase=$idFase");
     }
     $libera = mysql_free_result($result);	
 }
