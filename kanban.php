@@ -6,9 +6,11 @@ if (isset($_SESSION['username']))
 if (isset($_SESSION['password']))
     $password = $_SESSION['password'];
 if (!(empty($username) OR empty($password))) {
+    $idProjeto = $_SESSION['idProjeto'];
     include 'config.php';
     include 'CrudMissoes.php';
     include 'CrudTime.php';
+    include 'CrudTarefas.php';
     //include 'aultoload.php';
 
     $idFase = $_REQUEST['idFase'];
@@ -72,7 +74,7 @@ if (!(empty($username) OR empty($password))) {
             <tr>
                 <th class="danger">A Fazer&nbsp;</th>
                 <th class="warning">Desenvolvendo</th>
-                <th class="info">Verificando</th>
+                <th class="info">Testando</th>
                 <th class="success">Pronto</th>
             </tr>
             </thead>
@@ -84,7 +86,6 @@ if (!(empty($username) OR empty($password))) {
 
                 // Executa consulta
                 $result = mysql_query($query, $link);
-
                 $numlinha = mysql_num_rows($result);
 
                 if ($numlinha > 0) {
@@ -92,8 +93,8 @@ if (!(empty($username) OR empty($password))) {
                         $nome = $row['nome'];
                         $idMissao = $row['id_missao'];
                         ?>
-                        <tr>
-                            <th scope="row" aling="left">
+            <tr>
+                <th scope="row" aling="left">
 
                     <div class="row">
           <div id="divMissao" class="col-md-9" >
@@ -117,7 +118,7 @@ if (!(empty($username) OR empty($password))) {
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                                <form class="form-horizontal" role="form" action="RecebeDadosTarefa.php" method="POST" id="formCriatarefa">
+                                <form class="form-horizontal" role="form" action="RecebeDadosTarefa.php" method="POST" id="formCriarTarefa">
                                     <div class="form-group">
                                         <label for="inputNome" class="col-md-2 control-label">Nome:</label>
                                         <div class="col-md-9">
@@ -130,10 +131,23 @@ if (!(empty($username) OR empty($password))) {
                                             <textarea class="form-control" rows="3" name="descricao" id="descricaoTarefa"></textarea>
                                         </div>
                                     </div>
+                                    <div class="row">
                                     <div class="form-group">
-                                        <label for="inputNome" class="col-md-6 control-label">Responsável</label>
-                                        <div class="col-md-3"><?php listaUserSelect("responsavel","formCriatarefa"); ?></div>
+                                        <label for="inputNome" class="col-md-3 control-label">Responsável:</label>
+                                        <div class="col-md-2"><?php listaUserSelect("responsavel","formCriarTarefa"); ?></div>
+<!--                                    </div>
+                                    <div class="form-group">-->
+                                        <label for="inputEstado" class="col-md-3 control-label">Estado:</label>
+                                        <div class="col-md-1">
+                                            <select name="estadoTarefa" form="formCriarTarefa">
+                                                <option value="1"> A fazer</option>
+                                                <option value="2"> Desenvolvendo</option>
+                                                <option value="3"> Testando</option>
+                                                <option value="4"> Pronto </option>                                                
+                                            </select>
+                                        </div>
                                     </div>
+                                    </div><!-- row -->
                                     <div class="form-group">
                                         <label for="inputInicio3" class="col-sm-2 control-label">Início</label>
                                         <div class="col-sm-4">
@@ -172,12 +186,19 @@ if (!(empty($username) OR empty($password))) {
                     </div><!-- divIconesMissao -->
                     </div><!-- row -->
                     </th>
-                    <td id="afazer" class="danger" ondrop="drop(event)" ondragover="allowDrop(event)"><div id="testeDrag" draggable="true" ondragstart="drag(event)"></div></td>
-                    <td id="desenvolvendo"class="warning" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
-                    <td id="verificando" class="info" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
-                    <td id="pronto" class="success" ondrop="drop(event)" ondragover="allowDrop(event)"> </td>
+<!--                <td id="afazer<?php //echo $idMissao; ?>" name="afazer" class="danger" ondrop="drop(event)" ondragover="allowDrop(event)"><div id="testeDrag" draggable="true" ondragstart="drag(event)"></div></td>
+                    <td id="desenvolvendo<?php // echo $idMissao; ?>" name="desenvolvendo" class="warning" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="verificando<?php //echo $idMissao; ?>" name="verificando" class="info" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+                    <td id="pronto<?php // echo $idMissao; ?>" name="pronto" class="success" ondrop="drop(event)" ondragover="allowDrop(event)"> </td>-->
+                    <td id="afazer<?php echo $idMissao; ?>" name="afazer" class="danger" ></td>
+                    <td id="desenvolvendo<?php echo $idMissao; ?>" name="desenvolvendo" class="warning"></td>
+                    <td id="verificando<?php echo $idMissao; ?>" name="verificando" class="info" ></td>
+                    <td id="pronto<?php echo $idMissao; ?>" name="pronto" class="success"> </td>
                     </tr>
+<!--                    </tbody>
+        </table>-->
             <?php
+            listaTarefas($idMissao);
         }
     } else {
         echo '<script>

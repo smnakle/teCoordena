@@ -9,7 +9,7 @@ $(document).ready(function(){
     });
 });
 </script>
-<!--script que executa o drag and drop-->
+////////////////////////////////<!--script que executa o drag and drop-->
 <script>
     function allowDrop(ev) {
         ev.preventDefault();
@@ -23,7 +23,9 @@ $(document).ready(function(){
         ev.preventDefault();
         var data = ev.dataTransfer.getData("text");
         ev.target.appendChild(document.getElementById(data));
-    }
+    
+    </script>
+    ////////////////////////////////////////////////////
     <script>
         $('#myModal').on('shown.bs.modal', function() {
             $('#myInput').focus();

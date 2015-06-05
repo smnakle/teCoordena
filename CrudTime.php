@@ -78,9 +78,9 @@ if($numlinha > 0)
 {
     while ($row = mysql_fetch_assoc($result))
     {	
-                $username = $row['username'];
-                $idProjeto = $row['id_projeto'];
-                $idUsuario = $row['id_usuario'];
+        $username = $row['username'];
+        $idProjeto = $row['id_projeto'];
+        $idUsuario = $row['id_usuario'];
                 
         echo '<div class="row">	';
          echo '<div id="dadosForm" class="col-md-12 control-label" >';
@@ -135,17 +135,20 @@ function listaTimeSelect($idProjeto, $name, $idForm){
     include "config.php";
     $username = array();
     $query = "SELECT usuario.username, usuario.id_usuario, time.id_projeto
-                FROM usuario
-                INNER JOIN time
-                WHERE time.id_projeto = '$idProjeto'";
-//                AND (time.integranteUm = usuario.id_usuario 
-//                     OR time.integranteDois = usuario.id_usuario 
-//                     OR time.integranteTres = usuario.id_usuario 
-//                     OR time.integranteQuatro = usuario.id_usuario)";
-
+            FROM usuario
+            INNER JOIN time
+            WHERE time.id_projeto = '$idProjeto'
+            AND (time.id_usuario = usuario.id_usuario)";
     $result = mysql_query($query, $link);
     $numlinha = mysql_num_rows($result);
-
-    if($numlinha > 0){
-    } 
+        if ($numlinha > 0) {
+            echo '<select name="'.$name.'" form="'.$idForm.'" >';
+            echo ' <option value="">Selecione</option>';
+            while ($row = mysql_fetch_assoc($result)) {
+                echo ' <option value="'.$row['id_usuario']. '">'. $row['username'].'</option>';
+            }
+            echo '</select><br />';    
+        } else {
+            echo "nenhum usuario cadastrado";
+        }
 }

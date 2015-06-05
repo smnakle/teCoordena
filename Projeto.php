@@ -13,7 +13,7 @@ if (!(empty($username) OR empty($password))) {
     //include 'autoload.php';
     $idProjeto = $_REQUEST['idProjeto'];
     echo $idProjeto;
-    //$_SESSION['idProjeto'] = $idProjeto;
+    $_SESSION['idProjeto'] = $idProjeto;
     ?>
     <div class="row">
         <!--///////////////////////////Fases////////////////////////////////////////-->
