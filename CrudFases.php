@@ -61,7 +61,7 @@ if($numlinha > 0)
                         <button type="submit" class="btn btn-info pull-left" >Detalhes</button>
                         </label>';
        echo '          <label class="col-md-3 control-label ">
-                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalEditarFase">
+                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalEditarFase' .$idFase.'">
                             Modificar
                         </button>                    
                       </label>';
@@ -86,7 +86,7 @@ if($numlinha > 0)
                     $idProjetoA = $rowa['id_projeto'];
         
            ///////////////////// modal editar fase ////////////////////////////////////// 
-  echo '    <div class="modal fade" id="myModalEditarFase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  echo '    <div class="modal fade" id="myModalEditarFase' .$idFase.'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -170,7 +170,8 @@ function updateFase($idFase, $nome, $descricao, $inicio, $fim, $idProjeto){
 
 function modalEditarFase($idFase){
     include "config.php";
-    $query = "SELECT id_fase, nome, descricao , DATE_FORMAT(inicio,'%d/%m/%Y') AS inicio, DATE_FORMAT(fim,'%d/%m/%Y') AS fim, id_projeto FROM fases WHERE id_fase = '$idFase'";
+    //$query = "SELECT id_fase, nome, descricao , DATE_FORMAT(inicio,'%d/%m/%Y') AS inicio, DATE_FORMAT(fim,'%d/%m/%Y') AS fim, id_projeto FROM fases WHERE id_fase = '$idFase'";
+    $query = "SELECT id_fase, nome, descricao, id_projeto FROM fases WHERE id_fase = '$idFase'";
    // Executa consulta
     $result = mysql_query($query, $link);
     $numlinha = mysql_num_rows($result);
@@ -186,7 +187,7 @@ function modalEditarFase($idFase){
             
           ?>  
             <!-- Modal editar dados fase -->
-            <div class="modal fade" id="myModalEditarFase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal fade" id="myModalEditarFase<?php echo $idFase; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -226,7 +227,7 @@ function modalEditarFase($idFase){
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-success" id="salvarFase">Salvar</button>
                             <!--<label class="col-md-3 control-label pull-right">-->
-                                <a class="btn btn-danger pull-right" href="ApagarFase.php?idFase=<?php $idFase ?>&idProjeto=<?php// $idProjeto; ?>" role="button" id="botaoApagar" >Apagar</a>
+                                <a class="btn btn-danger pull-right" href="ApagarFase.php?idFase=<?php echo $idFase; ?>&idProjeto=<?php echo $idProjeto; ?>" role="button" id="botaoApagar" >Apagar</a>
                             <!--</label>-->
                          </div>
                         </form>

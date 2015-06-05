@@ -10,8 +10,7 @@ function test_input($data) {
 function criarMissao($nome, $descricao, $idFase){
 include 'config.php';
 
-$insere = "INSERT INTO missoes (nome, descricao, fk_id_fase) VALUES ('$nome','$descricao','$idFase')";
-       
+$insere = "INSERT INTO missoes (nome, descricao, id_fase) VALUES ('$nome','$descricao','$idFase')";      
 $result = mysql_query($insere, $link);
        
 if ($result === false)
@@ -27,18 +26,14 @@ else
 //$libera = mysql_free_result($result);	
 }
 
-function listaMissoes($fkIdFase){
+function listaMissoes($idFase){
 include "config.php";
-
-//echo $fkIdFase;
-
-$query = "SELECT id_missao, nome FROM missoes WHERE fk_id_fase = '$fkIdFase'";
+echo $idFase;
+$query = "SELECT id_missao, nome FROM missoes WHERE id_fase = '$idFase'";
 
 // Executa consulta
 $result = mysql_query($query, $link);
-
 $numlinha = mysql_num_rows($result);
-
 if($numlinha > 0)
 {
     while ($row = mysql_fetch_assoc($result))
@@ -51,17 +46,17 @@ if($numlinha > 0)
         <div class="row">
           <div id="divMissao" class="col-md-9" >
                     <?php echo $nome; ?>
-                        <?php $idMissao; ?>
+                     <?php $idMissao; ?>
           </div><!--divMissao -->
           <div id="divIconesMissao" class="col-md-1 control-label ">               
                <!--//////////////////// modal criar tarefa /////////////////////////////-->
                        <span title="Criar tarefa" data-toggle="tooltip" data-placement="right"> 
-                           <a href="#" data-toggle="modal" data-target="#myModalTarefa" id="m2"> 
+                           <a href="#" data-toggle="modal" data-target="#myModalCriarTarefa" id="m2"> 
                                 <span class="glyphicon glyphicon-list-alt" aria-hidden="true" aria-label="Right Align"></span>                        
                            </a>                  
                        </span>
                         <!-- Modal -->
-            <div class="modal fade" id="myModalTarefa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal fade" id="myModalCriarTarefa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -110,16 +105,14 @@ if($numlinha > 0)
             </div><!-- fade -->    
             <!--//////////////////// fim modal criar tarefa /////////////////////////////-->  
                <!--</form>-->
-               <form id="formEditarMissao" class="form-horizontal" role="form" action="editarMissao.php" method="post"> 
-                    <a href="#"  id="m2" data-toggle="tooltip" data-placement="right" title="Editar missão">
+                <!--///////////////////////// modal editar missao /////////////////////////////-->
+                 <span title="Editar missão" data-toggle="tooltip" data-placement="right"> 
+                    <a href="#" data-toggle="modal" data-target="#myModalEditarMissao<?php echo $idMissao; ?>" id="m2"> 
                         <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="Right Align"></span>
                     </a>
-                <!--</form>-->
-                <form id="formDeletarMissao" class="form-horizontal" role="form" action="excluirMissao.php" method="post"> 
-                    <a href="#" id="m3" data-toggle="tooltip" data-placement="right" title="Excluir missão">
-                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" aria-label="Right Align"></span>
-                    </a>
-                </form>
+                 </span>
+                 <?php modalEditarMissao($idMissao);?>
+              <!--- ////////////////////////    Fim modal editar missao  /////////////////////        -->
            </div><!-- divIconesMissao -->
         </div><!-- row-->
            </th>
@@ -140,11 +133,11 @@ else{
 $libera = mysql_free_result($result);
 }
 
-function updateFase($idFase, $nome, $descricao, $inicio, $fim, $idProjeto){
+function updateMissao($idMissao, $nome, $descricao, $idFase){
     include "config.php";
-    $altera ="UPDATE fases
-              SET nome='$nome', descricao='$descricao', inicio='$inicio', fim='$fim', fk_id_projeto ='$idProjeto'
-              WHERE id_fase='$idFase'";
+    $altera ="UPDATE missoes
+              SET nome='$nome', descricao='$descricao'
+              WHERE id_missao = '$idMissao'";
     // Executa consulta
     $result = mysql_query($altera, $link);
     // Mensagem caso a consulta falhe.
@@ -155,9 +148,89 @@ function updateFase($idFase, $nome, $descricao, $inicio, $fim, $idProjeto){
     else
     {
             echo "dados alterados com sucesso!";
-            header("Location: Projeto.php");
+            header("Location: kanban.php?idFase=$idFase");
     }
     $libera = mysql_free_result($result);	
 }
 	
-?>
+function modalEditarMissao($idMissao){
+    include "config.php";
+    $query = "SELECT id_missao, nome, descricao, id_fase FROM missoes WHERE id_missao = '$idMissao'";
+   // Executa consulta
+    $result = mysql_query($query, $link);
+    $numlinha = mysql_num_rows($result);
+    
+    if ($numlinha > 0) {
+        $row = mysql_fetch_assoc($result);  
+            $idMissao = $row['id_missao'];
+            $nome = $row['nome'];
+            $descricao =  $row['descricao'];
+            $idFase = $row['id_fase'];
+            
+          ?>  
+            <!-- Modal editar dados missao -->
+            <div class="modal fade" id="myModalEditarMissao<?php echo $idMissao; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Editar Missão</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <form class="form-horizontal" role="form" action="UpdateDadosMissao.php" method="POST">
+                                    <div class="form-group">
+                                        <label for="inputNome" class="col-md-2 control-label">Nome</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" name="nome" id="nome" value="<?php  echo $nome; ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputDescricao" class="col-md-2 control-label">Descrição</label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control" rows="3" name="descricao" id="texto"><?php  echo $descricao; ?></textarea>
+                                        </div>
+                                    </div>     
+                                    <input type="hidden" id="idMissao" name="idMissao" value="<?php echo $idMissao; ?>" />   
+                                    <input type="hidden" id="idFase" name="idFase" value="<?php echo $idFase;?>" /> 
+                            </div> <!--row-->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-success" id="salvarFase">Salvar</button>
+                            <!--<label class="col-md-3 control-label pull-right">-->
+                                <a class="btn btn-danger pull-right" href="ApagarMissao.php?idMissao=<?php echo $idMissao; ?>&idFase=<?php echo $idFase ?>" role="button" id="botaoApagar" >Apagar</a>
+                            <!--</label>-->
+                         </div>
+                        </form>
+                    </div> <!--modal content -->
+                </div> <!--modal dialog  -->
+            </div> <!-- fade -->
+          <?php         
+  
+     } else {
+        ?>
+        <script>
+            window.alert("Voce não tem fase para editar ");
+        </script>
+        <?php
+    }
+    $libera = mysql_free_result($result);
+}
+
+function apagarMissao($idFase, $idMissao){
+    include 'config.php';
+    
+    $query = "DELETE FROM missoes WHERE id_missao= '$idMissao'";
+    // Executa consulta
+    $result = mysql_query($query, $link);
+    if ($result === false) {
+        echo "Não foi possível apagar os dados" . mysql_error() . "<br />";
+        
+    } else {
+        echo "dados apagados com sucesso!";
+        printf("Registros Excluídos: %d\n", mysql_affected_rows());
+        //header("Location: kanban.php?idFase=$idFase");
+    }
+
+}
