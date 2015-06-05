@@ -55,7 +55,7 @@ if($numlinha > 0)
      echo ' <form id="formListaFase" class="form-horizontal" role="form" action="kanban.php" method="post">';
       echo '<div id="dadosFaseForm" class="col-md-12 control-label" >';
       echo '    <label for="Nome" class="col-md-5 control-label  pull-left">'. $nome.'</label>';
-      echo '    <label for="idFase" class="col-md-1 control-label  pull-left">'. $row['id_fase'].'</label>';
+      echo '    <label for="idFase" class="col-md-1 control-label  pull-left">'. $idFase . '</label>';
       echo '        <input type="hidden" id="idFase" name="idFase" value="' .$idFase.' />';
       echo '          <label class="col-md-3 control-label ">
                         <button type="submit" class="btn btn-info pull-left" >Detalhes</button>
@@ -67,10 +67,11 @@ if($numlinha > 0)
                       </label>';
                     
        echo '       </div><!-- dadosFaseForm -->';
-     // echo '</form>';
-//            modalEditarFase($idFase);
+    // echo '</form>';
+           // modalEditarFase($idFase);
             
            //$queryA = "SELECT id_fase, nome, descricao , DATE_FORMAT(inicio,'%d/%m/%Y') AS inicio, DATE_FORMAT(fim,'%d/%m/%Y') AS fim, id_projeto FROM fases WHERE id_fase = '$idFase'";
+
            $queryA = "SELECT * FROM fases WHERE id_fase = '$idFase'";
             //Executa consulta
             $resultado = mysql_query($queryA, $link);
